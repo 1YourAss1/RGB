@@ -1,0 +1,24 @@
+<resources>
+    <string name="app_name">RGB</string>
+    <string name="connect">Connect</string>
+    <string name="disconnect">Disconnect</string>
+    <string name="menu_item_bluetooth">Bluetooth</string>
+    <string name="menu_item_settings">Settings</string>
+    <string name="title_activity_settings">Settings</string>
+    <string name="dark_theme">Темная тема</string>
+    <string name="devices">Устройства</string>
+    <string name="device_info">device info</string>
+    <string name="interval">Интервал</string>
+    <string name="step">Шаг</string>
+    <string name="R">R</string>
+    <string name="G">G</string>
+    <string name="_0">0</string>
+    <string name="B">B</string>
+    <string name="H">H</string>
+    <string name="S">S</string>
+    <string name="V">V</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="add_to_favorite">Добавить в избранное</string>
+</resources>

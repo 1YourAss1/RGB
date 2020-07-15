@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".HSVFragment"
+    android:orientation="vertical">
+
+    <!-- Hue SeekBar -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="10dp"
+        android:layout_marginTop="50dp">
+
+        <TextView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:gravity="center"
+            android:text="@string/H"/>
+
+        <SeekBar
+            android:id="@+id/hSeekBar"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:max="255"
+            android:thumb="@drawable/thumb_hsv"
+            android:splitTrack="false" />
+
+        <TextView
+            android:id="@+id/hTextView"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:gravity="center"
+            android:text="@string/_0" />
+
+    </LinearLayout>
+
+    <!-- Saturation SeekBar -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="10dp">
+
+        <TextView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:gravity="center"
+            android:text="@string/S"/>
+
+        <SeekBar
+            android:id="@+id/sSeekBar"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:max="255"
+            android:thumb="@drawable/thumb_hsv"
+            android:splitTrack="false" />
+
+        <TextView
+            android:id="@+id/sTextView"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:gravity="center"
+            android:text="@string/_0" />
+
+    </LinearLayout>
+
+    <!-- Value SeekBar -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="10dp">
+
+        <TextView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:gravity="center"
+            android:text="@string/V"/>
+
+        <SeekBar
+            android:id="@+id/vSeekBar"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:max="255"
+            android:thumb="@drawable/thumb_hsv"
+            android:splitTrack="false"/>
+
+        <TextView
+            android:id="@+id/vTextView"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:gravity="center"
+            android:text="@string/_0" />
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/buttonAddHSVToFavorite"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="100dp"
+        android:layout_gravity="center"
+        android:text="@string/add_to_favorite"
+        android:textColor="@color/colorPrimary"
+        android:background="@drawable/custom_button"/>
+
+</LinearLayout>
