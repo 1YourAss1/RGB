@@ -21,6 +21,7 @@ import java.util.Arrays;
 public class MainActivity extends AppCompatActivity implements SendPackage {
     private FragmentManager fragmentManager;
     private EmptyFragment emptyFragment;
+    private SharedPreferences sharedPreferences;
     private Bluetooth myBluetooth;
     private boolean isConnected = false;
     private int[] RGB = {0,0,0}, HSV = {0,0,0};
@@ -38,7 +39,7 @@ public class MainActivity extends AppCompatActivity implements SendPackage {
         super.onCreate(savedInstanceState);
 
         // Установка светлой/темной темы из настроек
-        SharedPreferences sharedPreferences = getSharedPreferences("rgb_preferences", MODE_PRIVATE);
+        sharedPreferences = getSharedPreferences("rgb_preferences", MODE_PRIVATE);
         int theme_mode =  sharedPreferences.getInt("theme mode", AppCompatDelegate.MODE_NIGHT_NO);
         AppCompatDelegate.setDefaultNightMode(theme_mode);
 
@@ -51,33 +52,40 @@ public class MainActivity extends AppCompatActivity implements SendPackage {
         // Принятие и обработка данных из BT соединения
         @SuppressLint("HandlerLeak") Handler handler = new Handler() {
             public void handleMessage(Message msg) {
-                if (msg.what == -1) {                                                               // Если пришло сообщение об успешном подключении, то
-                    isConnected = true;                                                             // Поднять флаг
-                    toolbar.getMenu().findItem(R.id.menu_bluetooth).setEnabled(true);               // Включить кнопку "Bluetooth"
-                    Toast.makeText(getApplicationContext(),                                         // Сообщение об успешном покдлючении
-                            "Подключено успешно",
-                            Toast.LENGTH_SHORT)
-                            .show();
-                } else {                                                                            // Иначе
-                    SetOptions((int[]) msg.obj);                                                    // Присвоить полученные значение локальным переменным
-                    ModeFragment modeFragment = ModeFragment.newInstance(                           // Создать основнйо фрагмент и передать в него полученные значеня
-                            msg.what,
-                            RGB,
-                            HSV,
-                            interval,
-                            step);
-                    fragmentManager.beginTransaction()                                              // Отобразить созданный фрагмент
-                            .replace(R.id.frgmCont, modeFragment)
-                            .commit();
+                switch (msg.what) {
+                    case 0:                                                                         // Если пришло сообщение об успешном подключении, то
+                        isConnected = true;                                                         // Поднять флаг
+                        toolbar.getMenu().findItem(R.id.menu_bluetooth).setEnabled(true);           // Включить кнопку "Bluetooth"
+                        Toast.makeText(getApplicationContext(),                                     // Сообщение об успешном покдлючении
+                                    "Подключено успешно",
+                                    Toast.LENGTH_SHORT)
+                                    .show();
+                        break;
+                    case -1:                                                                        // Если пришло сообщение об ошибке подключения, то
+                        toolbar.getMenu().findItem(R.id.menu_bluetooth).setEnabled(true);           // Включить кнопку "Bluetooth"
+                        Toast.makeText(getApplicationContext(),                                     // Сообщение об ошибке подключения
+                                "Ошибка одключения",
+                                Toast.LENGTH_SHORT)
+                                .show();
+                        break;
+                    default:                                                                        // Иначе пришло сообщение с данными от Arduino, тогда
+                        SetOptions((int[]) msg.obj);                                                // Присвоить полученные значение локальным переменным
+                        ModeFragment modeFragment = ModeFragment.newInstance(                       // Создать основнйо фрагмент и передать в него полученные значеня
+                                msg.what,
+                                RGB,
+                                HSV,
+                                interval,
+                                step);
+                        fragmentManager.beginTransaction()                                          // Отобразить созданный фрагмент
+                                .replace(R.id.frgmCont, modeFragment)
+                                .commit();
+                        break;
                 }
             }
         };
 
-        // MAC из настроек
-        String MAC = sharedPreferences.getString("current_mac", "00:00:00:00:00:00");
-
         // Инициализация и проверка BT
-        myBluetooth = new Bluetooth(handler, MAC);
+        myBluetooth = new Bluetooth(handler);
         myBluetooth.SetUpBluetooth(this);
 
         // Установка фаргмента-заглушки по дефолту
@@ -97,8 +105,10 @@ public class MainActivity extends AppCompatActivity implements SendPackage {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_bluetooth:                                                               // Обработка нажатия кнопки "Bluetooth"
+                // MAC из настроек
+                String MAC = sharedPreferences.getString("current_mac", "00:00:00:00:00:00");
                 if (!isConnected) {                                                                 // Если не подключено, то
-                    myBluetooth.Connect();                                                          // Начать подключение
+                    myBluetooth.Connect(MAC);                                                       // Начать подключение
                     item.setEnabled(false);                                                         // Отключить кнопку
                 } else {                                                                            // Иначе
                     myBluetooth.Disconnect();                                                       // Отключиться

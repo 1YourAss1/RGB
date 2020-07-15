@@ -23,17 +23,14 @@ import java.util.UUID;
 class Bluetooth {
     private static final int REQUEST_ENABLE_BT = 1;
     private static final UUID MY_UUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
-    private String MAC;
     private BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-    private ConnectThread mConnectThread;
     private ConnectedThread mConnectedThread;
     private Handler handler;
 
     Bluetooth() {}
 
-    Bluetooth(Handler handler, String MAC) {
+    Bluetooth(Handler handler) {
         this.handler = handler;
-        this.MAC = MAC;
     }
 
     // Проверка поддержки и активности Bluetooth
@@ -49,8 +46,8 @@ class Bluetooth {
     }
 
     // Подключение к устройству
-    void Connect() {
-        mConnectThread = new ConnectThread(bluetoothAdapter.getRemoteDevice(MAC));
+    void Connect(String MAC) {
+        ConnectThread mConnectThread = new ConnectThread(bluetoothAdapter.getRemoteDevice(MAC));
         mConnectThread.start();
     }
 
@@ -92,9 +89,12 @@ class Bluetooth {
             try {
                 mmSocket.connect();
                 Message readMsg = handler.obtainMessage(
-                        -1);
+                       0);
                 readMsg.sendToTarget();
             } catch (IOException connectException) {
+                Message readMsg = handler.obtainMessage(
+                        -1);
+                readMsg.sendToTarget();
                 try {
                     mmSocket.close();
                 } catch (IOException e) {
