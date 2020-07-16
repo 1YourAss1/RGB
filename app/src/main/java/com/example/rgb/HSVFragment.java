@@ -60,7 +60,7 @@ public class HSVFragment extends Fragment {
 
         GradientDrawable hGradientDrawable = new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT,
                 new int[] {0xFFFF0000, 0xFFFFFF00, 0xFF00FF00, 0xFF00FFFF, 0xFF0000FF, 0xFFFF00FF, 0xFFFF0000});
-        hGradientDrawable.setCornerRadius(20);
+        hGradientDrawable.setCornerRadius(25);
 
         hSeekBar.setProgressDrawable(hGradientDrawable);
 
@@ -78,7 +78,7 @@ public class HSVFragment extends Fragment {
 
         sGradientDrawable = new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT,
                 new int[] {0xFFFFFFFF, Color.HSVToColor(new float[]{map(HSV[0], 0, 255, 0, 360),1,1})});
-        sGradientDrawable.setCornerRadius(20);
+        sGradientDrawable.setCornerRadius(25);
 
         sSeekBar.setProgressDrawable(sGradientDrawable);
 
@@ -96,7 +96,7 @@ public class HSVFragment extends Fragment {
 
         vGradientDrawable = new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT,
                 new int[] {0xFF000000, Color.HSVToColor(new float[]{map(HSV[0], 0, 255, 0, 360),1,1})});
-        vGradientDrawable.setCornerRadius(20);
+        vGradientDrawable.setCornerRadius(25);
 
         vSeekBar.setProgressDrawable(vGradientDrawable);
 
